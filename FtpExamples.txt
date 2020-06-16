@@ -1,0 +1,67 @@
+public static void main(String[] arg) {
+
+    /**
+     * sftp
+     */
+
+/*        String sftp_hostname = "129.9.100.14";
+        int sftp_port = 22;
+        String sftp_username = "root";  // root
+        String sftp_password = "82797984";  // 82797984*/
+
+    /**
+     * ftp
+     */
+    int ftpport = 21;
+    String ftpHostName = "files.000webhost.com"; //
+
+    String ftpUsername = "mikrorek";  // root
+    String ftpPassword = "Keskyn2408";  // 82797984
+
+/*        String ftphostname = "129.9.100.10"; //
+        String ftpusername = "read";  // root
+        String ftppassword = "readpdf";  // 82797984
+
+        String ftpusernameCanWrite = "capital";  // root
+        String ftppasswordCanWrite = "capitalpass";*/
+
+    Client client = new ClientFactory().createClient(ClientFactory.Protocol.FTP);
+    // or new FtpClient(); new SftpClient(); new FtpsClient()
+    client.setHost(ftpHostName);
+    client.setPort(ftpport);
+    client.setCredentials(new UserCredentials(ftpUsername, ftpPassword));
+
+//        Client client = new ClientFactory().createClient(ClientFactory.Protocol.FTP);
+//        // or new FtpClient(); new SftpClient(); new FtpsClient()
+//        client.setHost(ftphostname);
+//        client.setPort(ftpport);
+//        client.setCredentials(new UserCredentials(ftpusernameCanWrite, ftppasswordCanWrite));
+
+    //  String file ="\\DB\\DB13\\DB%1300%B31%9-1990.PDF";
+    //String file = "/DB/DB13\\DB13%T%1081.20-2009.PDF";
+
+    Connection connection = client.connect();
+
+    /**
+     * exist
+     */
+
+    System.out.println("working directory : " + connection.getWorkingDirectory());
+    //  System.out.println(connection.existsFile(file));
+
+    // connection.downloadFile("/GN2/2014.02/DB11!T~1047-2013.pdf", "D:\\ftpFiles\\test.pdf", false);
+
+/*        List<AaFtpFile> remoteFiles = connection.listFiles("/public_html/");
+
+        for (AaFtpFile jfile : remoteFiles)
+            System.out.println(String.format("%s -> %s -> %s -> %d", jfile.getAbsolutePath(), jfile.getName(), jfile.getLastModified(), jfile.getSize()));*/
+
+    //
+    //connection.downloadFile("/public_html/index.html", "/home/tkeskin/Downloads", true,true);
+    connection.uploadFile("/home/tkeskin/Downloads/11.pdf", "/tmp/", true);
+
+    //
+    // System.out.println("本地时间和服务器端时间差 ："+ connection.getTimeDiff());
+    //  System.out.println("判断文件是否发生变化 ："+ connection.isSync("/2.csv","D:\\ftp\\2.csv"));
+    client.disconnect();
+  }

@@ -1,0 +1,66 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'checkstyle'
+    id 'pmd'
+}
+
+pmd {
+    ignoreFailures = true
+    pmdTest.enabled = false
+    ruleSets = ['java-basic', 'java-braces', 'java-clone',
+                'java-codesize', 'java-comments', 'java-controversial',
+                'java-coupling', 'java-design', 'java-empty',
+                'java-finalizers', 'java-imports', 'java-optimizations', 'java-strictexception',
+                'java-strings', 'java-typeresolution', 'java-unnecessary', 'java-unusedcode'
+    ]
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        html.enabled = true
+    }
+}
+
+tasks.withType(Pmd) {
+    reports {
+        html.enabled = true
+    }
+}
+
+checkstyle {
+    toolVersion '7.8.1'
+    checkstyleTest.enabled = false
+    configFile file("config/checkstyle/checkstyle.xml")
+}
+
+group = 'tr.com.aa'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '14'
+
+ext {
+    lombokVersion = "1.18.12"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'commons-net:commons-net:3.6'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'com.jcraft:jsch:0.1.55'
+    implementation 'com.google.guava:guava:15.0'
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
